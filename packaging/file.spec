@@ -5,6 +5,7 @@ Release: 1
 License: BSD
 Group: Applications/File
 Source0: ftp://ftp.astron.com/pub/file/file-%{version}.tar.gz
+Source1001: packaging/file.manifest 
 URL: http://www.darwinsys.com/file/
 Patch0: file-4.21-pybuild.patch
 Patch1: file-4.26-devdrv.patch
@@ -51,6 +52,7 @@ touch -r doc/libmagic.man doc/libmagic.man_
 mv doc/libmagic.man_ doc/libmagic.man
 
 %build
+cp %{SOURCE1001} .
 CFLAGS="%{optflags} -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE" \
 %configure --enable-fsect-man5 --disable-rpath
 # remove hardcoded library paths from local libtool
@@ -83,16 +85,19 @@ ln -s ../magic ${RPM_BUILD_ROOT}%{_datadir}/misc/magic
 %docs_package
 
 %files
+%manifest file.manifest
 %defattr(-,root,root,-)
 %{_bindir}/*
 
 %files -n libfile
+%manifest file.manifest
 %{_libdir}/*so.*
 %{_datadir}/magic*
 %{_datadir}/file
 %{_datadir}/misc/*
 
 %files -n libfile-devel
+%manifest file.manifest
 %{_libdir}/*.so
 %{_includedir}/magic.h
 
