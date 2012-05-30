@@ -9,6 +9,7 @@ Release: 3
 License: BSD
 Group: System/Libraries
 Source0: ftp://ftp.astron.com/pub/file/file-%{version}.tar.gz
+Source1001: packaging/python-magic.manifest 
 URL: http://www.darwinsys.com/file/
 Patch0: file-4.21-pybuild.patch
 Patch1: file-4.26-devdrv.patch
@@ -34,6 +35,7 @@ file(1) command.
 
 
 %build
+cp %{SOURCE1001} .
 CFLAGS="%{optflags} -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE" \
 cd python
 CFLAGS="%{optflags}" %{__python} setup.py build
@@ -50,6 +52,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %files
+%manifest python-magic.manifest
 %defattr(-,root,root,-)
 %doc python/README COPYING python/example.py
 %{python_sitearch}/magic.so
