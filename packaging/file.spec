@@ -66,6 +66,8 @@ mkdir -p ${RPM_BUILD_ROOT}%{_mandir}/man1
 mkdir -p ${RPM_BUILD_ROOT}%{_mandir}/man5
 mkdir -p ${RPM_BUILD_ROOT}%{_datadir}/misc
 mkdir -p ${RPM_BUILD_ROOT}%{_datadir}/file
+mkdir -p %{buildroot}/usr/share/license
+cp COPYING %{buildroot}/usr/share/license/%{name}
 
 %make_install
 
@@ -85,6 +87,7 @@ ln -s ../magic ${RPM_BUILD_ROOT}%{_datadir}/misc/magic
 %files
 %defattr(-,root,root,-)
 %{_bindir}/*
+/usr/share/license/%{name}
 
 %files -n libfile
 %{_libdir}/*so.*
