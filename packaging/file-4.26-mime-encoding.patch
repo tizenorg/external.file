@@ -1,0 +1,34 @@
+diff -uNr file-5.00.org/src/funcs.c file-5.00/src/funcs.c
+--- file-5.00.org/src/funcs.c	2009-04-21 15:35:41.000000000 +0800
++++ file-5.00/src/funcs.c	2009-04-21 15:54:00.000000000 +0800
+@@ -153,6 +153,20 @@
+ 	file_error(ms, errno, "error reading");
+ }
+ 
++private int mime_encoding(struct magic_set * ms, const unsigned char * buf, size_t size)
++{
++	size_t dummy;
++
++	if( file_looks_utf8(buf, size, NULL, &dummy) == 1 )
++	{
++		if(file_printf(ms, "7bit") == -1)
++			return -1;
++	} else if(file_printf(ms, "binary") == -1)
++		return -1;
++
++	return 1;                  
++}
++
+ #ifndef COMPILE_ONLY
+ protected int
+ file_buffer(struct magic_set *ms, int fd, const char *inname, const void *buf,
+@@ -201,6 +215,9 @@
+ 	}
+ #endif
+ 
++        if (ms->flags & MAGIC_MIME_ENCODING && !(ms->flags & MAGIC_MIME_TYPE)) 
++                return mime_encoding(ms, ubuf, nb);
++
+ 	/* try compression stuff */
+ 	if ((ms->flags & MAGIC_NO_CHECK_COMPRESS) == 0)
+ 		if ((m = file_zmagic(ms, fd, inname, ubuf, nb)) != 0) {
