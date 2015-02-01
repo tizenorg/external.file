@@ -37,6 +37,7 @@ Requires: libfile = %{version}-%{release}
 The file-devel package contains the header files and libmagic library
 necessary for developing programs using libmagic.
 
+
 %prep
 # Don't use -b -- it will lead to poblems when compiling magic file
 %setup -q
@@ -58,7 +59,7 @@ CFLAGS="%{optflags} -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE" \
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
 sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
 export LD_LIBRARY_PATH=%{_builddir}/%{name}-%{version}/src/.libs
-make
+make %{?_smp_mflags}
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -79,21 +80,20 @@ ln -s file/magic ${RPM_BUILD_ROOT}%{_datadir}/magic
 #ln -s file/magic.mime ${RPM_BUILD_ROOT}%{_datadir}/magic.mime
 ln -s ../magic ${RPM_BUILD_ROOT}%{_datadir}/misc/magic
 
-
+%remove_docs
 
 %post -n libfile -p /sbin/ldconfig
 
 %postun -n libfile -p /sbin/ldconfig
 
-%docs_package
-
 %files
-%manifest file.manifest
 %defattr(-,root,root,-)
+%manifest file.manifest
 %{_bindir}/*
 /usr/share/license/%{name}
 
 %files -n libfile
+%defattr(-,root,root,-)
 %{_libdir}/*so.*
 %{_datadir}/magic*
 %{_datadir}/file
@@ -101,6 +101,7 @@ ln -s ../magic ${RPM_BUILD_ROOT}%{_datadir}/misc/magic
 /usr/share/license/libfile
 
 %files -n libfile-devel
+%defattr(-,root,root,-)
 %{_libdir}/*.so
 %{_includedir}/magic.h
 
