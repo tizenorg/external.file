@@ -1,15 +1,16 @@
-Summary:    A utility for determining file types
-Name:       file
-Version:    5.04
-Release:    2
-License:    BSD-2.0
-Group:      Applications/File
-Source0:    ftp://ftp.astron.com/pub/file/file-%{version}.tar.gz
+Summary: A utility for determining file types
+Name:    file
+Version: 5.04
+Release: 2
+License: BSD 2-clause
+Group:   Applications/File
+URL:     http://www.darwinsys.com/file/
+Source0: ftp://ftp.astron.com/pub/file/file-%{version}.tar.gz
+
 Source1001: file.manifest
-URL:        http://www.darwinsys.com/file/
-Patch0:     file-4.21-pybuild.patch
-Patch1:     file-4.26-devdrv.patch
-Patch2:     file-4.26-mime-encoding.patch
+Patch0: file-4.21-pybuild.patch
+Patch1: file-4.26-devdrv.patch
+Patch2: file-4.26-mime-encoding.patch
 BuildRequires: zlib-devel
 
 %description

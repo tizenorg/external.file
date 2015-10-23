@@ -16,7 +16,7 @@ Patch2: file-4.26-mime-encoding.patch
 
 Requires: file >= %{version}
 BuildRequires: zlib-devel
-BuildRequires: python-devel, file-devel
+BuildRequires: python-devel, libfile-devel
 
 %description
 This package contains the Python bindings to allow access to the
@@ -41,9 +41,10 @@ CFLAGS="%{optflags}" %{__python} setup.py build
 %install
 rm -rf $RPM_BUILD_ROOT
 cd python
-%{__python} setup.py install -O1 --skip-build --root ${RPM_BUILD_ROOT}
+%{__python} setup.py install -O1 --skip-build --root ${RPM_BUILD_ROOT} --prefix "/usr"
 %{__install} -d ${RPM_BUILD_ROOT}%{_datadir}/%{name}
-%{__install} -D example.py ${RPM_BUILD_ROOT}/%{_docdir}/python-magic-%{version}
+%{__install} -d ${RPM_BUILD_ROOT}%{_docdir}/python-magic-%{version}/
+%{__install} -D example.py ${RPM_BUILD_ROOT}%{_docdir}/python-magic-%{version}/
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -54,4 +55,3 @@ rm -rf $RPM_BUILD_ROOT
 %doc python/README COPYING python/example.py
 %{python_sitearch}/magic.so
 %{python_sitearch}/*egg-info
-
